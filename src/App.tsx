@@ -12,7 +12,8 @@ import {
   AlertTriangle,
   LogOut,
   Shield,
-  Leaf
+  Leaf,
+  MapPin
 } from 'lucide-react';
 import { Button } from './components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
@@ -37,6 +38,8 @@ import { EmergencyPreparedness } from './components/EmergencyPreparedness';
 import { AIHub } from './components/AIHub';
 import { OfflineManager } from './components/OfflineManager';
 import { Profile } from './components/Profile';
+import { CommunityPage } from './components/pages/CommunityPage';
+import { ProfilePage } from './components/pages/ProfilePage';
 import { Notifications } from './components/Notifications';
 
 function Dashboard() {
@@ -398,7 +401,7 @@ function Dashboard() {
           </TabsContent>
 
           <TabsContent value="community">
-            <CommunityExchange />
+            <CommunityPage />
           </TabsContent>
 
           <TabsContent value="ai">
@@ -410,7 +413,7 @@ function Dashboard() {
           </TabsContent>
 
           <TabsContent value="profile">
-            <Profile />
+            <ProfilePage />
           </TabsContent>
         </Tabs>
       </main>
@@ -826,7 +829,7 @@ function DashboardWrapper({ user: mockUser, onLogout }: { user: any; onLogout: (
           </TabsContent>
 
           <TabsContent value="community">
-            <CommunityExchange />
+            <CommunityPage />
           </TabsContent>
 
           <TabsContent value="ai">
@@ -838,7 +841,7 @@ function DashboardWrapper({ user: mockUser, onLogout }: { user: any; onLogout: (
           </TabsContent>
 
           <TabsContent value="profile">
-            <Profile />
+            <ProfilePage />
           </TabsContent>
         </Tabs>
       </main>
