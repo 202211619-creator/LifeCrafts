@@ -2,9 +2,10 @@
  * CommunityPage - Page Component
  * Full page component using organisms, molecules, and atoms
  * Integrates custom hooks and interfaces
+ * Includes SEO optimization
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Plus, Loader2 } from 'lucide-react';
 import { PostCard } from '../organisms/PostCard';
@@ -14,6 +15,7 @@ import { usePosts, useCreatePost, useLikePost } from '../../hooks/useQuery';
 import { useAuth } from '../AuthProvider';
 import type { CreatePostRequest, Post } from '../../interface/api.types';
 import { toast } from 'sonner';
+import { useSEO } from '../../utils/seo';
 
 export function CommunityPage() {
     const { user } = useAuth();
@@ -22,6 +24,14 @@ export function CommunityPage() {
     const likePostMutation = useLikePost();
     const [isCreatePostOpen, setIsCreatePostOpen] = useState(false);
     const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+
+    // SEO Optimization
+    useSEO({
+        title: 'Community Exchange',
+        description: 'Share knowledge, connect with the community, and exchange survival tips and resources.',
+        keywords: ['community', 'survival tips', 'off-grid living', 'emergency preparedness', 'knowledge sharing'],
+        ogType: 'website',
+    });
 
     const handleCreatePost = async (data: CreatePostRequest) => {
         try {
@@ -67,10 +77,10 @@ export function CommunityPage() {
     }
 
     return (
-        <div className="space-y-6">
-            <div className="flex items-center justify-between">
+        <main className="space-y-6" role="main">
+            <header className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold">Community Exchange</h2>
+                    <h1 className="text-2xl font-bold">Community Exchange</h1>
                     <p className="text-muted-foreground">Share knowledge and connect with the community</p>
                 </div>
                 <Button onClick={() => setIsCreatePostOpen(true)}>
@@ -110,8 +120,8 @@ export function CommunityPage() {
                         <p>No posts yet. Be the first to share!</p>
                     </div>
                 )}
-            </div>
-        </div>
+            </section>
+        </main>
     );
 }
 

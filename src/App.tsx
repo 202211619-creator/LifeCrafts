@@ -1,6 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { Toaster } from './components/ui/sonner';
+import { ProtectedRoute } from './middleware/ProtectedRoute';
+import { SuspenseFallback } from './components/layout/SuspenseFallback';
+import { CommunityPage, ProfilePage, KnowledgeHub, ToolsCalculators, EmergencyPreparedness, AIHub, OfflineManager } from './components/pages';
 import {
   BookOpen,
   Calculator,
@@ -30,16 +33,7 @@ import { AuthProvider, useAuth } from './components/AuthProvider';
 import { AuthForm } from './components/AuthForm';
 import { Login } from './components/Login';
 import { ResetPassword } from './components/ResetPassword';
-import { KnowledgeHub } from './components/KnowledgeHub';
-import { ToolsCalculators } from './components/ToolsCalculators';
-import { CommunityExchange } from './components/CommunityExchange';
 import { EmergencyMode } from './components/EmergencyMode';
-import { EmergencyPreparedness } from './components/EmergencyPreparedness';
-import { AIHub } from './components/AIHub';
-import { OfflineManager } from './components/OfflineManager';
-import { Profile } from './components/Profile';
-import { CommunityPage } from './components/pages/CommunityPage';
-import { ProfilePage } from './components/pages/ProfilePage';
 import { Notifications } from './components/Notifications';
 
 function Dashboard() {
@@ -815,33 +809,49 @@ function DashboardWrapper({ user: mockUser, onLogout }: { user: any; onLogout: (
             </TabsList>
           </div>
 
-          {/* Tab Contents */}
+          {/* Tab Contents - Lazy Loaded with Suspense */}
           <TabsContent value="knowledge">
-            <KnowledgeHub />
+            <Suspense fallback={<SuspenseFallback />}>
+              <KnowledgeHub />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="tools">
-            <ToolsCalculators />
+            <Suspense fallback={<SuspenseFallback />}>
+              <ToolsCalculators />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="emergency">
-            <EmergencyPreparedness />
+            <Suspense fallback={<SuspenseFallback />}>
+              <EmergencyPreparedness />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="community">
-            <CommunityPage />
+            <Suspense fallback={<SuspenseFallback />}>
+              <CommunityPage />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="ai">
-            <AIHub />
+            <Suspense fallback={<SuspenseFallback />}>
+              <AIHub />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="offline">
-            <OfflineManager />
+            <Suspense fallback={<SuspenseFallback />}>
+              <OfflineManager />
+            </Suspense>
           </TabsContent>
 
           <TabsContent value="profile">
-            <ProfilePage />
+            <Suspense fallback={<SuspenseFallback />}>
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            </Suspense>
           </TabsContent>
         </Tabs>
       </main>
@@ -881,8 +891,18 @@ export default function App() {
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<AppContent />} />
-          <Route path="/reset-password" element={<AppContent />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <AppContent />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={<AppContent />}
+          />
         </Routes>
       </AuthProvider>
     </BrowserRouter>

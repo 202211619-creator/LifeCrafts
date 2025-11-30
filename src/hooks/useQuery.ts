@@ -83,8 +83,10 @@ export function useProfile() {
             }
             return response.data;
         },
-        staleTime: 5 * 60 * 1000, // 5 minutes
+        staleTime: 5 * 60 * 1000, // 5 minutes - Optimized for SSG-like behavior
+        cacheTime: 10 * 60 * 1000, // 10 minutes cache
         retry: 1,
+        refetchOnWindowFocus: false, // Optimize: don't refetch on window focus
     });
 }
 
@@ -120,8 +122,10 @@ export function usePosts() {
             }
             return Array.isArray(response.data) ? response.data : [];
         },
-        staleTime: 2 * 60 * 1000, // 2 minutes
+        staleTime: 2 * 60 * 1000, // 2 minutes - Optimized for ISR-like behavior
+        cacheTime: 5 * 60 * 1000, // 5 minutes cache
         retry: 1,
+        refetchOnWindowFocus: false, // Optimize: don't refetch on window focus
     });
 }
 

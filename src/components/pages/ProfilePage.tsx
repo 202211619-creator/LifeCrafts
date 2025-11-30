@@ -1,6 +1,7 @@
 /**
  * ProfilePage - Page Component
  * Full page component using custom hooks and interfaces
+ * Includes SEO optimization
  */
 
 import React, { useState } from 'react';
@@ -15,6 +16,7 @@ import { useProfile, useUpdateProfile } from '../../hooks/useQuery';
 import { useAuth } from '../AuthProvider';
 import type { UpdateProfileRequest } from '../../interface/api.types';
 import { toast } from 'sonner';
+import { useSEO } from '../../utils/seo';
 
 export function ProfilePage() {
     const { user } = useAuth();
@@ -28,6 +30,14 @@ export function ProfilePage() {
         birthdate: '',
         gender: '',
         phone_number: '',
+    });
+
+    // SEO Optimization
+    useSEO({
+        title: 'Profile',
+        description: `View and manage your LifeCraft profile. Track your contributions, level, and points.`,
+        keywords: ['profile', 'user settings', 'account', 'lifeCraft'],
+        ogType: 'profile',
     });
 
     React.useEffect(() => {
@@ -84,7 +94,7 @@ export function ProfilePage() {
     }
 
     return (
-        <div className="space-y-6">
+        <main className="space-y-6" role="main">
             <Card>
                 <CardHeader>
                     <div className="flex items-center justify-between">
@@ -207,7 +217,7 @@ export function ProfilePage() {
                     </Card>
                 </CardContent>
             </Card>
-        </div>
+        </main>
     );
 }
 
